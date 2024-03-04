@@ -5,6 +5,8 @@ default: &default
   username: <%= ENV['POSTGRES_USER'] %>
   password: <%= ENV['POSTGRES_PASSWORD'] %>
   host: <%= ENV['POSTGRES_HOST'] %>
+  port: <%= ENV['POSTGRES_PORT'] %>
+  database: <%= ENV['POSTGRES_DB'] %>
 
 development:
   <<: *default
@@ -16,4 +18,4 @@ test:
 
 production:
   <<: *default
-  database: hfd_production
+

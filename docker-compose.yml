@@ -22,3 +22,5 @@ services:
       POSTGRES_USER: hfd
       POSTGRES_PASSWORD: hfd_pass
       POSTGRES_DB: hfd_development
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
