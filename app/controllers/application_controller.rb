@@ -8,9 +8,9 @@ class ApplicationController < ActionController::API
   def serve_from_gcs
     path = request.path
     path = path[1..-1] if path.starts_with?("/")
-    path = 'index.html' if path == ''
     bucket = storage_client.bucket("hfd-fe")
     file = bucket.file(path)
+    file ||= bucket.file("index.html")
     if file
       content = file.download
       content.rewind
