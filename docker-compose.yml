@@ -3,7 +3,7 @@ services:
   db:
     image: postgres
     volumes:
-      - ./tmp/db:/var/lib/postgresql/data
+      - db_data:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: hfd
       POSTGRES_PASSWORD: hfd_pass
@@ -14,7 +14,7 @@ services:
     volumes:
       - .:/rails
     ports:
-      - "3000:3000"
+      - "4444:3000"
     depends_on:
       - db
     environment:
@@ -24,3 +24,6 @@ services:
       POSTGRES_DB: hfd_development
       POSTGRES_HOST: db
       POSTGRES_PORT: 5432
+volumes:
+  db_data:
+
