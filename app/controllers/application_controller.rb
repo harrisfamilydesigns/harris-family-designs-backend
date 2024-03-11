@@ -9,7 +9,6 @@ class ApplicationController < ActionController::API
     path = request.path
     path = path[1..-1] if path.starts_with?("/")
     path = 'index.html' if path == ''
-    puts "path: #{path}"
     bucket = storage_client.bucket("hfd-fe")
     file = bucket.file(path)
     if file
