@@ -2,7 +2,9 @@ class Users::SessionsController < Devise::SessionsController
   skip_before_action :verify_signed_out_user, only: :destroy
 
   def create
-    super { |user| @token = current_token(user) }
+    super do |user|
+      @token = current_token(user)
+    end
   end
 
   def destroy

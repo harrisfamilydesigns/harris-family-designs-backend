@@ -8,16 +8,18 @@ class ApplicationController < ActionController::API
   def serve_from_gcs
     path = request.path
     path = path[1..-1] if path.starts_with?("/")
+    path = path.chomp("/")
+    is_asset_path = path.starts_with?("assets/") || path.match?(extension)
     bucket = storage_client.bucket("hfd-fe")
-    file = bucket.file(path)
-    file ||= bucket.file("index.html")
-    if file
-      content = file.download
-      content.rewind
-      send_data content.read, type: file.content_type, disposition: "inline"
-    else
-      render plain: "File not found", status: :not_found
+    file = is_asset_path ? bucket.file(path) : bucket.file("index.html")
+    if file.nil?
+      file = bucket.file("index.html")
     end
+    content = file.download
+    content.rewind
+    send_data content.read, type: file.content_type, disposition: "inline"
+  rescue StandardError => e
+    render json: { error: e.message }, status: :internal_server_error
   end
 
 
@@ -45,5 +47,10 @@ class ApplicationController < ActionController::API
       project_id: credentials["project_id"],
       credentials: credentials
     )
+  end
+
+  def extension
+    # 3 or 4 characters long
+    /\.(?:[a-z0-9]{3,4})\z/
   end
 end

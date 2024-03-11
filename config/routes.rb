@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
-  # handle subdomains
-  constraints subdomain: ['www', 'secondhand'] do
+  # handle if subdomain is NOT 'api'
+  constraints subdomain: /^(?!api$).+/ do
     get "(*path)", to: "application#serve_from_gcs"
   end
 
