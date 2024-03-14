@@ -22,6 +22,6 @@ class Users::SessionsController < Devise::SessionsController
 
   # Ensure response includes the JWT in the create action
   def respond_with(resource, _opts = {})
-    render json: { user: resource, token: @token }, status: :ok
+    render json: { token: @token }, status: :ok
   end
 end
