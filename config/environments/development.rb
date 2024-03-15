@@ -38,7 +38,14 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
-  config.action_mailer.default_url_options = { host: 'localhost', port: 5173 }
+  frontend_urls = Rails.application.config.frontend_urls['development']
+  config.action_mailer.default_url_options = {
+    scheme: frontend_urls.dig('scheme'),
+    host: frontend_urls.dig('secondhand'),
+    port: frontend_urls.dig('port')
+  }
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = Rails.application.credentials.dig(:sendgrid, :smtp)
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
@@ -75,4 +82,8 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
+
+  # Send mails to max@harrisfamilydesigns.com instead of intended recipient
+  require Rails.root.join('config', 'initializers', 'email_interceptor.rb')
+  ActionMailer::Base.register_interceptor(EmailInterceptor)
 end
