@@ -5,6 +5,8 @@ class ApplicationController < ActionController::API
   # rescue_from ActiveRecord::RecordNotSaved, with: :record_not_saved
   # rescue_from ActiveRecord::RecordNotDestroyed, with: :record_not_destroyed
 
+  before_action :snake_case_params
+
   def serve_from_gcs
     path = request.path
     path = path[1..-1] if path.starts_with?("/")
@@ -52,5 +54,9 @@ class ApplicationController < ActionController::API
   def extension
     # 3 or 4 characters long
     /\.(?:[a-z0-9]{3,4})\z/
+  end
+
+  def snake_case_params
+    params.deep_transform_keys!(&:underscore)
   end
 end

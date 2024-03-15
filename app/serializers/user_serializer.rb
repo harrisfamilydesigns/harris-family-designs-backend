@@ -5,7 +5,14 @@ class UserSerializer
   end
 
   def json
-    @user.to_json(only: [:id, :email])
+    attributes = {
+      id: @user.id,
+      email: @user.email
+    }
+    if @user.admin?
+      attributes[:admin] = @user.admin
+    end
+    attributes
   end
 
 end

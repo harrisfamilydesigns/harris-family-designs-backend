@@ -4,7 +4,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def create
     super do |resource|
       if resource.persisted?
-        render json: resource, status: :created and return
+        render json: UserSerializer.new(resource).json, status: :created and return
       else
         render json: { errors: resource.errors.full_messages }, status: :unprocessable_entity and return
       end
@@ -17,7 +17,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
     super do |resource|
       if resource.errors.empty?
-        render json: resource, status: :ok and return
+        render json: UserSerializer.new(resource).json, status: :ok and return
       else
         render json: { errors: resource.errors.full_messages }, status: :unprocessable_entity and return
       end
