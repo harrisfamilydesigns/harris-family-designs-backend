@@ -70,7 +70,7 @@ Rails.application.configure do
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
 
-  frontend_urls = Rails.application.config.frontend_urls.production
+  frontend_urls = Rails.application.config.frontend_urls['production']
   config.action_mailer.default_url_options = {
     scheme: frontend_urls.dig('scheme'),
     host: frontend_urls.dig('secondhand'),
