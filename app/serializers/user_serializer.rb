@@ -10,6 +10,7 @@ class UserSerializer < BaseSerializer
       email: @user.email,
       first_name: @user.first_name,
       last_name: @user.last_name,
+      confirmed: @user.confirmed?,
       unconfirmed_email: @user.unconfirmed_email,
     }
     if @user.admin?
