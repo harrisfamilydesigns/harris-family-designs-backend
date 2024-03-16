@@ -8,4 +8,21 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
       render json: { errors: resource.errors.full_messages }, status: :unprocessable_entity
     end
   end
+
+  # POST /resource/confirmation
+  # Resend confirmation email
+  def create
+    self.resource = resource_class.send_confirmation_instructions(resource_params)
+    if successfully_sent?(resource)
+      render json: { message: "Confirmation email sent successfully" }, status: :ok
+    else
+      render json: { errors: resource.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
+
+  private
+
+  def resource_params
+    params.require(:user).permit(:email)
+  end
 end
