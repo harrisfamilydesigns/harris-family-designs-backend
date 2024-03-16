@@ -16,4 +16,5 @@ task gcloud_update: :environment do
 end
 
 desc 'Build, push, and update the Google Cloud Run service'
-task :gcloud_build_push_update => [:gcloud_build, :gcloud_push, :gcloud_update]
+task :deploy => [:gcloud_build, :gcloud_push, :gcloud_update]
+
