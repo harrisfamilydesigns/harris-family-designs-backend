@@ -12,6 +12,8 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   get 'users/current', to: 'users#current', as: :current_user
+  match 'users/current', to: 'users#update_current', via: [:put, :patch]
+
   devise_for :users,
            controllers: {
              sessions: 'users/sessions',

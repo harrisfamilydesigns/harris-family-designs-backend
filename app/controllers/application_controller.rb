@@ -41,6 +41,10 @@ class ApplicationController < ActionController::API
     render json: { error: 'Record not destroyed' }, status: :unprocessable_entity
   end
 
+  def verify_current_user!
+    return render json: { error: "Unauthorized" }, status: :unauthorized if current_user.nil?
+  end
+
   private
 
   def storage_client
