@@ -13,6 +13,7 @@ class UserSerializer < BaseSerializer
       confirmed: @user.confirmed?,
       unconfirmed_email: @user.unconfirmed_email,
       address: @user.address,
+      preferences: @user.preferences
     }
     if @user.admin?
       attributes[:admin] = @user.admin
