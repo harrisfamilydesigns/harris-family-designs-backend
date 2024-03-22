@@ -1,9 +1,10 @@
 require "google/cloud/storage"
 class ApplicationController < ActionController::API
-  # rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
-  # rescue_from ActiveRecord::RecordInvalid, with: :record_invalid
-  # rescue_from ActiveRecord::RecordNotSaved, with: :record_not_saved
-  # rescue_from ActiveRecord::RecordNotDestroyed, with: :record_not_destroyed
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
+  rescue_from ActiveRecord::RecordInvalid, with: :record_invalid
+  rescue_from ActiveRecord::RecordNotSaved, with: :record_not_saved
+  rescue_from ActiveRecord::RecordNotDestroyed, with: :record_not_destroyed
+  rescue_from ActionController::UnpermittedParameters, with: :unpermitted_parameters
 
   before_action :snake_case_params
 
@@ -24,7 +25,6 @@ class ApplicationController < ActionController::API
     render json: { error: e.message }, status: :internal_server_error
   end
 
-
   def record_not_found
     render json: { error: 'Record not found' }, status: :not_found
   end
@@ -39,6 +39,10 @@ class ApplicationController < ActionController::API
 
   def record_not_destroyed
     render json: { error: 'Record not destroyed' }, status: :unprocessable_entity
+  end
+
+  def unpermitted_parameters(exception)
+    render json: { error: exception.message }, status: :unprocessable_entity
   end
 
   def verify_current_user!

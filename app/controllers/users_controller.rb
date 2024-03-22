@@ -25,6 +25,7 @@ class UsersController < ApplicationController
       :first_name,
       :last_name,
       :address,
+      :experience_level,
       preferences: {} # This is a JSONB column
     )
   end
