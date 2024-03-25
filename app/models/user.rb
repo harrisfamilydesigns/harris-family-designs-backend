@@ -4,4 +4,6 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :validatable,
          :confirmable, :trackable, :recoverable,
          :jwt_authenticatable, jwt_revocation_strategy: JwtDenylist
+
+  has_one :stripe_account
 end

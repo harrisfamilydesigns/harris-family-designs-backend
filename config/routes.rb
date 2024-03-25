@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-
   # handle if subdomain is NOT 'api'
   constraints subdomain: /^(?!api$).+/ do
     get "(*path)", to: "application#serve_from_gcs"
@@ -24,6 +23,9 @@ Rails.application.routes.draw do
            defaults: { format: :json }
 
   resources :posts, only: [:index]
+
+  get 'stripe_accounts/current', to: 'stripe_accounts#current', as: :current_stripe_account
+  post 'stripe_accounts/account_link', to: 'stripe_accounts#account_link', as: :stripe_account_link
 
   # Defines the root path route ("/")
   root "posts#index"

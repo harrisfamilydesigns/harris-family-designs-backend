@@ -10,8 +10,7 @@ class BaseSerializer
 
   def json
     attributes.
-      stringify_keys.
-      deep_transform_keys{ |k| k.camelize(:lower) }.
+      deep_transform_keys{ |k| k.to_s.camelize(:lower) }.
       to_json
   end
 
