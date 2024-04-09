@@ -12,9 +12,16 @@ class ApplicationController < ActionController::API
     path = request.path
     path = path[1..-1] if path.starts_with?("/")
     path = path.chomp("/")
-    is_asset_path = path.starts_with?("assets/") || path.match?(extension)
-    bucket = storage_client.bucket("hfd-fe")
-    file = is_asset_path ? bucket.file(path) : bucket.file("index.html")
+
+    if request.subdomain == 'secondhand'
+      bucket = storage_client.bucket('secondhandfix') # reactnative web build
+      file = path ? bucket.file(path) : bucket.file("index.html")
+    else
+      bucket = storage_client.bucket('hfd-fe') # vite build
+      is_asset_path = path.starts_with?("assets/") || path.match?(extension)
+      file = is_asset_path ? bucket.file(path) : bucket.file("index.html")
+    end
+
     if file.nil?
       file = bucket.file("index.html")
     end
