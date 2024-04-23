@@ -9,31 +9,8 @@ class ApplicationController < ActionController::API
   before_action :snake_case_params
 
   def serve_from_gcs
-    # Normalize the path
-    path = request.path.delete_prefix('/').chomp('/')
-
-    if request.subdomain == 'secondhand'
-      bucket = storage_client.bucket('secondhandfix') # reactnative web build
-      file = find_file_in_bucket(bucket, path)
-      file ||= bucket.file("index.html") # When the path is just a frontend route
-    else
-      bucket = storage_client.bucket('hfd-fe') # vite build
-      is_asset_path = path.starts_with?("assets/") || path.match?(extension)
-      file = is_asset_path ? bucket.file(path) : bucket.file("index.html")
-      file ||= bucket.file("index.html")
-    end
-
-    if file
-      content = file.download
-      content.rewind
-      send_data content.read, type: file.content_type, disposition: "inline"
-    else
-      record_not_found
-    end
-  rescue Google::Cloud::NotFoundError => e
-    record_not_found
-  rescue StandardError => e
-    render json: { error: e.message }, status: :internal_server_error
+    # serve_expo_or_vite_app
+    serve_vite_app_only
   end
 
   def record_not_found
@@ -95,5 +72,53 @@ class ApplicationController < ActionController::API
     end
 
     bucket.file(directory_index)
+  end
+
+  def serve_vite_app_only
+    path = request.path.delete_prefix('/').chomp('/')
+    bucket = storage_client.bucket('hfd-fe')
+    is_asset_path = path.starts_with?("assets/") || path.match?(extension)
+    file = is_asset_path ? bucket.file(path) : bucket.file("index.html")
+    file ||= bucket.file("index.html")
+
+    if file
+      content = file.download
+      content.rewind
+      send_data content.read, type: file.content_type, disposition: "inline"
+    else
+      record_not_found
+    end
+  rescue Google::Cloud::NotFoundError => e
+    record_not_found
+  rescue StandardError => e
+    render json: { error: e.message }, status: :internal_server_error
+  end
+
+  def serve_expo_or_vite_app
+    # Normalize the path
+    path = request.path.delete_prefix('/').chomp('/')
+
+    if request.subdomain == 'secondhand'
+      bucket = storage_client.bucket('secondhandfix') # reactnative web build
+      file = find_file_in_bucket(bucket, path)
+      file ||= bucket.file("index.html") # When the path is just a frontend route
+    else
+      bucket = storage_client.bucket('hfd-fe') # vite build
+      is_asset_path = path.starts_with?("assets/") || path.match?(extension)
+      file = is_asset_path ? bucket.file(path) : bucket.file("index.html")
+      file ||= bucket.file("index.html")
+    end
+
+    if file
+      content = file.download
+      content.rewind
+      send_data content.read, type: file.content_type, disposition: "inline"
+    else
+      record_not_found
+    end
+  rescue Google::Cloud::NotFoundError => e
+    record_not_found
+  rescue StandardError => e
+    render json: { error: e.message }, status: :internal_server_error
   end
 end
