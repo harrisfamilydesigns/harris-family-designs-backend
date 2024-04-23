@@ -5,7 +5,7 @@ class CreateThrifters < ActiveRecord::Migration[7.1]
       t.jsonb :preferences
       t.string :experience_level
       t.belongs_to :user, null: false, foreign_key: true
-
+      t.string :status
       t.timestamps
     end
 

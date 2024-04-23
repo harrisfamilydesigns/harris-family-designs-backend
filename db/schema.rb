@@ -50,11 +50,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_23_013818) do
     t.jsonb "preferences"
     t.string "experience_level"
     t.bigint "user_id", null: false
+    t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "bio"
     t.string "avatar_url"
-    t.string "status", default: "new"
     t.index ["user_id"], name: "index_thrifters_on_user_id"
   end
 
