@@ -24,9 +24,6 @@ class UsersController < ApplicationController
     params.require(:user).permit(
       :first_name,
       :last_name,
-      :address,
-      :experience_level,
-      preferences: {} # This is a JSONB column
     )
   end
 end

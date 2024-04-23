@@ -60,11 +60,11 @@ class ThriftersController < ApplicationController
       params.require(:thrifter).permit(
         :user_id,
         :address,
-        :preferences,
         :experience_level,
         :bio,
         :avatar_url,
-        :status
+        :status,
+        preferences: {} # This is a JSONB column
       )
     end
 
