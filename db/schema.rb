@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_25_003233) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_23_013818) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -27,12 +27,43 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_25_003233) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "status_transitions", force: :cascade do |t|
+    t.string "transitionable_type", null: false
+    t.bigint "transitionable_id", null: false
+    t.string "from"
+    t.string "to"
+    t.datetime "created_at", null: false
+    t.index ["transitionable_type", "transitionable_id", "created_at"], name: "index_status_transitions_parent"
+    t.index ["transitionable_type", "transitionable_id"], name: "index_status_transitions_on_transitionable"
+  end
+
   create_table "stripe_accounts", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.string "stripe_account_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_stripe_accounts_on_user_id"
+  end
+
+  create_table "thrifters", force: :cascade do |t|
+    t.string "address"
+    t.jsonb "preferences"
+    t.string "experience_level"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "bio"
+    t.string "avatar_url"
+    t.string "status", default: "new"
+    t.index ["user_id"], name: "index_thrifters_on_user_id"
+  end
+
+  create_table "uploads", force: :cascade do |t|
+    t.string "url"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_uploads_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -55,13 +86,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_25_003233) do
     t.datetime "confirmed_at"
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
-    t.string "address"
-    t.jsonb "preferences", default: {}
-    t.string "experience_level"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "stripe_accounts", "users"
+  add_foreign_key "thrifters", "users"
+  add_foreign_key "uploads", "users"
 end

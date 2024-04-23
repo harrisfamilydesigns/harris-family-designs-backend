@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  resources :uploads, only: [:create] do
+    member do
+      get :public
+    end
+  end
+  resources :thrifters
   # handle if subdomain is NOT 'api'
   constraints subdomain: /^(?!api$).+/ do
     get "(*path)", to: "application#serve_from_gcs"

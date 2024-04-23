@@ -1,10 +1,17 @@
 development:
-  port: 5173
-  scheme: 'http'
-  hfd: 'hfd.localhost'
-  secondhand: 'http://secondhand.hfd.localhost'
+  hfd:
+    host: 'hfd.localhost'
+    port: 5173
+    scheme: 'http'
+  secondhand:
+    host: 'secondhand.hfd.localhost'
+    port: 8081
+    scheme: 'http'
 
 production:
-  scheme: 'https'
-  hfd: 'www.harrisfamilydesigns.com'
-  secondhand: 'secondhand.harrisfamilydesigns.com'
+  hfd:
+    host: 'www.harrisfamilydesigns.com'
+    scheme: 'https'
+  secondhand:
+    host: 'secondhand.harrisfamilydesigns.com'
+    scheme: 'https'

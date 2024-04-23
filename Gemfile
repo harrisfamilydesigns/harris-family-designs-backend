@@ -16,6 +16,7 @@ gem 'devise-jwt'
 
 gem 'google-cloud-storage'
 gem 'stripe'
+gem 'aasm'
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 # gem "jbuilder"

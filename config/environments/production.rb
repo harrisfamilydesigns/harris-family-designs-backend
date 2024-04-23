@@ -70,10 +70,11 @@ Rails.application.configure do
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
 
-  frontend_urls = Rails.application.config.frontend_urls['production']
+  # TODO: Handle email host based on request subdomain
+  frontend_urls = Rails.application.config.frontend_urls['production']['secondhand']
   config.action_mailer.default_url_options = {
     scheme: frontend_urls.dig('scheme'),
-    host: frontend_urls.dig('secondhand'),
+    host: frontend_urls.dig('host'),
   }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = Rails.application.credentials.dig(:sendgrid, :smtp)

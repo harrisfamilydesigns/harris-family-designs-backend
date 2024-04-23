@@ -38,10 +38,11 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
-  frontend_urls = Rails.application.config.frontend_urls['development']
+  # TODO: Handle email host based on request subdomain
+  frontend_urls = Rails.application.config.frontend_urls['development']['secondhand']
   config.action_mailer.default_url_options = {
     scheme: frontend_urls.dig('scheme'),
-    host: frontend_urls.dig('secondhand'),
+    host: frontend_urls.dig('host'),
     port: frontend_urls.dig('port')
   }
   config.action_mailer.delivery_method = :smtp
