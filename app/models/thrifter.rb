@@ -1,5 +1,6 @@
 class Thrifter < ApplicationRecord
   belongs_to :user
+  has_one :stripe_account
   has_many :status_transitions, as: :transitionable
 
   include AASM

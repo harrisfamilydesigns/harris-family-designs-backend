@@ -1,3 +1,3 @@
 class StripeAccount < ApplicationRecord
-  belongs_to :user
+  belongs_to :thrifter
 end

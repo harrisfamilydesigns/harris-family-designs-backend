@@ -14,6 +14,7 @@ class ThrifterSerializer < BaseSerializer
       bio: @thrifter.bio,
       avatar_url: @thrifter.avatar_url,
       status: @thrifter.status,
+      stripe_account_id: @thrifter.stripe_account&.id,
     }
   end
 

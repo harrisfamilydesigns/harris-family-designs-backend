@@ -3,7 +3,7 @@ class StripeAccountsController < ApplicationController
 
   # GET /stripe_accounts/current
   def current
-    stripe_account = current_user.stripe_account
+    stripe_account = current_user.thrifter&.stripe_account
 
     if (stripe_account.nil?)
       render json: { error: "Stripe account not found" }, status: :not_found

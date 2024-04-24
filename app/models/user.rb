@@ -5,7 +5,6 @@ class User < ApplicationRecord
          :confirmable, :trackable, :recoverable,
          :jwt_authenticatable, jwt_revocation_strategy: JwtDenylist
 
-  has_one :stripe_account
   has_one :thrifter
   has_one :customer
 end
