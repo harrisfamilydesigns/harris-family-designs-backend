@@ -1,4 +1,4 @@
-class ThriftersController < ApplicationController
+class Api::V1::ThriftersController < ApplicationController
   before_action :verify_current_user!
   before_action :set_thrifter, only: %i[ show update destroy ]
   before_action :authorize_admin!, only: %i[ index ]

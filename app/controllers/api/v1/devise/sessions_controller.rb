@@ -1,4 +1,4 @@
-class Users::SessionsController < Devise::SessionsController
+class Api::V1::Devise::SessionsController < Devise::SessionsController
   skip_before_action :verify_signed_out_user, only: :destroy
 
   def create

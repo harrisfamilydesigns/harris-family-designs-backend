@@ -1,8 +1,8 @@
-class Users::PasswordsController < Devise::PasswordsController
+class Api::V1::Devise::PasswordsController < Devise::PasswordsController
   # POST /resource/password
   # Send reset password instructions
   # example curl command:
-  #   curl -X POST -H "Content-Type: application/json" -d '{"user": {"email": "max@hfd.com"}}' http://api.hfd.localhost:4444/users/password
+  #   curl -X POST -H "Content-Type: application/json" -d '{"user": {"email": "max@hfd.com"}}' http://localhost:4444/api/v1/users/password
   #
   def create
     self.resource = resource_class.send_reset_password_instructions(create_params)
@@ -15,7 +15,7 @@ class Users::PasswordsController < Devise::PasswordsController
 
   # PUT /resource/password
   # example curl command:
-  #   curl -X PUT -H "Content-Type: application/json" -d '{"user": {"reset_password_token": "abcdef", "password": "newpassword", "password_confirmation": "newpassword"}}' http://api.hfd.localhost:4444/users/password
+  #   curl -X PUT -H "Content-Type: application/json" -d '{"user": {"reset_password_token": "abcdef", "password": "newpassword", "password_confirmation": "newpassword"}}' http://localhost:4444/api/v1/users/password
   #
   def update
     reset_password_token = Devise.token_generator.digest(resource_class, :reset_password_token, update_params[:token])

@@ -50,7 +50,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_23_210129) do
     t.jsonb "preferences"
     t.string "experience_level"
     t.bigint "user_id", null: false
-    t.string "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "bio"

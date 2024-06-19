@@ -1,4 +1,4 @@
-class StripeAccountsController < ApplicationController
+class Api::V1::StripeAccountsController < ApplicationController
   before_action :verify_current_user!
 
   # GET /stripe_accounts/current

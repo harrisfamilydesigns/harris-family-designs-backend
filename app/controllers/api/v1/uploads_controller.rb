@@ -1,6 +1,6 @@
 require "google/cloud/storage"
 
-class UploadsController < ApplicationController
+class Api::V1::UploadsController < ApplicationController
   before_action :verify_current_user!
 
   def create
