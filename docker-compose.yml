@@ -14,7 +14,7 @@ services:
     volumes:
       - .:/rails
     ports:
-      - "4444:3000"
+      - "3000:3000"
     depends_on:
       - db
     environment:
