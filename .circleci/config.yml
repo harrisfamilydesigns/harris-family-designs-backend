@@ -1,0 +1,52 @@
+version: 2.1
+
+jobs:
+  build:
+    docker:
+      - image: cimg/base:current
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 20.10.7
+          docker_layer_caching: true
+      - run:
+          name: Install Docker Buildx
+          command: |
+            mkdir -p ~/.docker/cli-plugins/
+            curl -sSL https://github.com/docker/buildx/releases/download/v0.8.2/buildx-v0.8.2.linux-amd64 -o ~/.docker/cli-plugins/docker-buildx
+            chmod +x ~/.docker/cli-plugins/docker-buildx
+      - run:
+          name: Build and Push Docker Image
+          environment:
+            IMAGE: gcr.io/hfdbe-416102/harris-family-designs-backend:v1
+          command: |
+            docker buildx create --use || true
+            docker buildx build --platform linux/amd64 -t $IMAGE --output type=docker .
+            docker push $IMAGE
+
+  deploy:
+    docker:
+      - image: google/cloud-sdk:latest
+    steps:
+      - checkout
+      - run:
+          name: Deploy to Google Cloud Run
+          environment:
+            IMAGE: gcr.io/hfdbe-416102/harris-family-designs-backend:v1
+            SERVICE: harris-family-designs-backend
+            REGION: us-central1
+            PLATFORM: managed
+          command: |
+            gcloud run services update $SERVICE --image=$IMAGE --region=$REGION --platform=$PLATFORM
+
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: main
