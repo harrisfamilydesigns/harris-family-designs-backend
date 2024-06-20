@@ -93,7 +93,8 @@ Rails.application.configure do
   config.hosts = [
     "harrisfamilydesigns.com",     # Allow requests from example.com
     /.*\.harrisfamilydesigns\.com/, # Allow requests from subdomains like `www.example.com`
-    'harris-family-designs-backend.onrender.com'
+    'harris-family-designs-backend.onrender.com',
+    'https://harris-family-designs-backend-ftdw5otr2q-uc.a.run.app'
   ]
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
