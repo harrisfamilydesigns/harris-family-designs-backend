@@ -1,0 +1,20 @@
+#!/bin/bash
+
+set -e
+
+IMAGE="gcr.io/hfdbe-416102/harris-family-designs-backend:v1"
+SERVICE="harris-family-designs-backend"
+REGION="us-central1"
+PLATFORM="managed"
+
+echo "Building the Docker image..."
+docker build -t $IMAGE .
+
+echo "Pushing the Docker image to the Google Cloud Container Registry..."
+docker push $IMAGE
+
+echo "Updating the Google Cloud Run service with the new image..."
+gcloud run services update $SERVICE --image=$IMAGE --region=$REGION --platform=$PLATFORM
+
+echo "Deployment complete."
+
