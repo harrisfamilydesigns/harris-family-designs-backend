@@ -11,9 +11,6 @@ PLATFORM="managed"
 # Ensure Docker Buildx is enabled
 docker buildx create --use || true
 
-# Define your image name and tag
-IMAGE=your-image-name:tag
-
 # Build the x86_64 image
 docker buildx build --platform linux/amd64 -t $IMAGE --output type=docker .
 
