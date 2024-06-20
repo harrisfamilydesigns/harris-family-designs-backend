@@ -91,10 +91,8 @@ Rails.application.configure do
 
   # Enable DNS rebinding protection and other `Host` header attacks.
   config.hosts = [
-    "harrisfamilydesigns.com",     # Allow requests from example.com
-    /.*\.harrisfamilydesigns\.com/, # Allow requests from subdomains like `www.example.com`
-    'harris-family-designs-backend.onrender.com',
-    'https://harris-family-designs-backend-ftdw5otr2q-uc.a.run.app'
+    "api.harrisfamilydesigns.com",
+    /harris-family-designs-backend-*\.a\.run\.app/ # Allow requests from Cloud Run services like `example-uc.a.run.app`
   ]
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
