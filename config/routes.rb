@@ -29,6 +29,10 @@ Rails.application.routes.draw do
 
       get 'users/current', to: 'users#current', as: :current_user
       match 'users/current', to: 'users#update_current', via: [:put, :patch]
+
+      namespace :fine_print do
+        resources :summaries, only: [:create]
+      end
     end
   end
 
