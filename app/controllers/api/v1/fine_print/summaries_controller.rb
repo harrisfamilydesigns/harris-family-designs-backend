@@ -3,11 +3,37 @@ class Api::V1::FinePrint::SummariesController < ApplicationController
   def create
     api_key = Rails.application.credentials.dig(:openai, :fine_print, :api_key)
 
-    client = OpenAI::Client.new(access_token: api_key) do |f|
+    @client = OpenAI::Client.new(access_token: api_key) do |f|
       f.response :logger, Logger.new($stdout), bodies: true
     end
 
-    response = client.chat(
+    if summary_params[:file].present?
+      handle_file_summary
+    else
+      handle_text_summary
+    end
+  end
+
+  private
+
+  def summary_params
+    params.require(:summary).permit(:text, :file)
+  end
+
+  def text_to_summarize
+    # big_text
+    summary_params[:text]
+  end
+
+  def handle_file_summary
+    logger.info "Handling file summary"
+    logger.info "File: #{summary_params[:file]}"
+    logger.info "Filename: #{summary_params[:file].original_filename}"
+    render json: { message: "File summary not yet implemented" }
+  end
+
+  def handle_text_summary
+    response = @client.chat(
       parameters: {
         model: "gpt-3.5-turbo",
         messages: [{
@@ -25,17 +51,6 @@ class Api::V1::FinePrint::SummariesController < ApplicationController
     message_content = response['choices'].first.dig('message', 'content')
 
     render json: { summary: message_content }
-  end
-
-  private
-
-  def summary_params
-    params.require(:summary).permit(:text)
-  end
-
-  def text_to_summarize
-    # big_text
-    summary_params[:text]
   end
 
   def big_text
