@@ -48,11 +48,10 @@ jobs:
           --platform managed \
           --quiet
 
-    - name: Clean up old images
+    - name: Clean up old images (keep 3)
       run: |
-        gcloud artifacts docker images list gcr.io/${{ secrets.GOOGLE_PROJECT_ID }}/harris-family-designs-backend \
-          --include-tags \
-          --sort-by ~CREATE_TIME \
-          --format 'get(name)' \
+        gcloud container images list-tags gcr.io/${{ secrets.GOOGLE_PROJECT_ID }}/harris-family-designs-backend \
+          --sort-by=TIMESTAMP \
+          --format='get(digest)' \
           | tail -n +4 \
-          | xargs -I {} gcloud artifacts docker images delete {} --quiet
+          | xargs -I {} gcloud container images delete -q gcr.io/${{ secrets.GOOGLE_PROJECT_ID }}/harris-family-designs-backend@{}
