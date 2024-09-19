@@ -6,12 +6,12 @@ class Api::V1::StripeAccountsController < ApplicationController
     stripe_account = current_user.thrifter&.stripe_account
 
     if (stripe_account.nil?)
-      render json: { error: "Stripe account not found" }, status: :not_found
+      render json: nil, status: :ok
       return
     end
 
     if (stripe_account.stripe_account_id.nil?)
-      render json: { error: "Stripe account not found" }, status: :not_found
+      render json: nil, status: :ok
       return
     end
 
