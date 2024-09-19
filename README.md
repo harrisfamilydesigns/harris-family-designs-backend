@@ -22,3 +22,6 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+# Deployment
+App is automatically deployed when pushed/merged to main via github workflow cicd.yml
