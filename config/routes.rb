@@ -33,6 +33,14 @@ Rails.application.routes.draw do
       namespace :fine_print do
         resources :summaries, only: [:create]
       end
+
+      namespace :booksuite do
+        resources :tests, only: [] do
+          collection do
+            get :test
+          end
+        end
+      end
     end
   end
 

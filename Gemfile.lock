@@ -311,6 +311,7 @@ DEPENDENCIES
   devise-jwt
   dockerfile-rails (>= 1.6)
   google-cloud-storage
+  jwt
   pg
   puma (>= 5.0)
   rack-cors

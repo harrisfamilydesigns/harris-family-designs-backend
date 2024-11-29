@@ -11,6 +11,10 @@ gem "pg"
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
 
+# JWT for Auth0
+gem 'jwt'
+
+# JWT for Devise
 gem 'devise'
 gem 'devise-jwt'
 
