@@ -24,10 +24,11 @@ module Secured
     return if performed?
 
     validation_response = Auth0Client.validate_token(token)
+    if validation_response.error
+      render json: { message: validation_response.error.message }, status: validation_response.error.status
+    end
 
-    return unless (error = validation_response.error)
-
-    render json: { message: error.message }, status: error.status
+    @decoded_token = Auth0Client::Token.new(validation_response.decoded_token)
   end
 
   def validate_permissions(permissions)

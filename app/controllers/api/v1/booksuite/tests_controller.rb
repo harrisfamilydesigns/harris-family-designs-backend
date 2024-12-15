@@ -1,6 +1,6 @@
 class Api::V1::Booksuite::TestsController < SecuredController
   def test
-    render json: { message: "Hello from BookSuite API" }
+    render json: { message: "Hello from BookSuite API", current_user: current_user.email }
   end
 
   def test_scoped

@@ -66,4 +66,20 @@ class Auth0Client
     error = Error.new('Bad credentials', :unauthorized)
     Response.new(nil, error)
   end
+
+  def self.get_user(sub)
+    # Fetch the user from auth0
+    user_uri = URI("#{domain_url}api/v2/users/#{sub}")
+    http = Net::HTTP.new(user_uri.host, user_uri.port)
+    http.use_ssl = true
+
+    request = Net::HTTP::Get.new(user_uri)
+    request
+      .add_field('Authorization', "Bearer #{Rails.application.credentials.auth0.management_api_token}")
+      .add_field('Content-Type', 'application/json')
+
+    response = http.request(request)
+
+    JSON.parse(response.body).deep_symbolize_keys
+  end
 end

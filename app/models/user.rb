@@ -1,10 +1,7 @@
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable, :validatable,
-         :confirmable, :trackable, :recoverable,
-         :jwt_authenticatable, jwt_revocation_strategy: JwtDenylist
+  include AuthLogic
 
+  # # Only need these association if active_apps includes secondhandfix
   has_one :thrifter
   has_one :customer
 end
